@@ -1,10 +1,23 @@
-import {useRef} from 'react'
-import PropTypes from 'prop-types'
+import React, {useRef, useEffect} from 'react'
+import {useDispatch, useSelector} from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { productActionCreators, State } from '../state'
+import {IProductState} from '../state/actions/product'
 
-const Products = () => {
+const Products: React.FC = () => {
     const cartRef = useRef<HTMLElement>(null)
     const overlayRef = useRef<HTMLDivElement>(null)
     const menuRef = useRef<HTMLDivElement>(null)
+
+    const dispach = useDispatch()
+    const {getAllProducts} = bindActionCreators(productActionCreators, dispach)
+    const productList: IProductState = useSelector((state: State) => state.products)
+    
+    const { products } = productList
+
+    useEffect(() => {
+        getAllProducts()
+      }, [getAllProducts])
 
     const showMenu = () => {
         menuRef.current?.classList.add("show-menu")  
@@ -22,6 +35,7 @@ const Products = () => {
         cartRef.current?.classList.remove("show-cart")  
         overlayRef.current?.classList.add("hide")
      }
+     
     return (
         <>
             <div>
@@ -196,8 +210,7 @@ const Products = () => {
                     </div>
                 </section>
             </div>
-            
-                
+
                 <nav id="main-nav">
                     <div className="nav-left-wrap" ref={menuRef}>
                         <div className="nav-left">
@@ -251,54 +264,20 @@ const Products = () => {
             </section>
             <section className="prod-sec">
                 <div className="grid-wrap">
-                    <div className="grid-wrap-single">
-                        <div className="item-img">
-                            <img src="/image/age-management.png" alt="item" />
+                    {products.map(prod => (
+                         <div className="grid-wrap-single" key={prod.id}>
+                            <div className="item-img">
+                                <img src={prod.image_url} alt="item" />
+                            </div>
+                            <h3 className="item-name">{prod.title}</h3>
+                            <p className="item-price">USD {prod.price}</p>
+                            <button className="btn btn-cart" onClick={showCart}>Add to Cart</button>
                         </div>
-                        <h3 className="item-name">Age Management Set</h3>
-                        <p className="item-price">NOK 580.00</p>
-                        <button className="btn btn-cart" onClick={showCart}>Add to Cart</button>
-                    </div>
-                    <div className="grid-wrap-single">
-                        <div className="item-img">
-                            <img src="/image/age-management.png" alt="item" />
-                        </div>
-                        <h3 className="item-name">Age Management Set</h3>
-                        <p className="item-price">NOK 580.00</p>
-                        <button className="btn btn-cart" onClick={showCart}>Add to Cart</button>
-                    </div>
-                    <div className="grid-wrap-single">
-                        <div className="item-img">
-                            <img src="/image/age-management.png" alt="item" />
-                        </div>
-                        <h3 className="item-name">Age Management Set</h3>
-                        <p className="item-price">NOK 580.00</p>
-                        <button className="btn btn-cart" onClick={showCart}>Add to Cart</button>
-                    </div>
-                    <div className="grid-wrap-single">
-                        <div className="item-img">
-                            <img src="/image/age-management.png" alt="item" />
-                        </div>
-                        <h3 className="item-name">Age Management Set</h3>
-                        <p className="item-price">NOK 580.00</p>
-                        <button className="btn btn-cart" onClick={showCart}>Add to Cart</button>
-                    </div>
-                    <div className="grid-wrap-single">
-                        <div className="item-img">
-                            <img src="/image/age-management.png" alt="item" />
-                        </div>
-                        <h3 className="item-name">Age Management Set</h3>
-                        <p className="item-price">NOK 580.00</p>
-                        <button className="btn btn-cart" onClick={showCart}>Add to Cart</button>
-                    </div>
+                    ))}
                 </div>
             </section>
         </>
     )
-}
-
-Products.propTypes = {
-
 }
 
 export default Products

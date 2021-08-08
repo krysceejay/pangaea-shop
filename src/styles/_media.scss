@@ -112,7 +112,7 @@
     .grid-wrap {
       grid-template-columns: repeat(2, 1fr);
       &-single {
-        padding: 0 0.7rem;
+        padding: 1rem 0.7rem;
         .item {
           &-name {
             font-size: 0.8rem;
