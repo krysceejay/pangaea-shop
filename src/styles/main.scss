@@ -87,12 +87,11 @@ div[class^='btn-'],
   max-width: 550px;
   width: 100%;
   height: 100%;
-  z-index: 30;
+  z-index: 400;
   opacity: 1;
   transform: translateX(100%);
   transition: transform 0.5s ease-in-out;
   overflow: hidden;
-
   &.show-cart {
     transform: translateX(0);
   }
@@ -103,19 +102,6 @@ div[class^='btn-'],
       display: flex;
       align-items: center;
       margin-bottom: 20px;
-      &-back {
-        border: 1px solid rgb(198, 204, 199);
-        border-radius: 50%;
-        width: 24px;
-        height: 24px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        i {
-          font-size: 1.2rem;
-        }
-      }
       &-title {
         text-align: center;
         color: #696969;
@@ -276,6 +262,11 @@ div[class^='btn-'],
   box-shadow: grey 0px 2px 3px -3px;
   background-color: #fff;
   min-height: 70px;
+  .nav-left-wrap {
+    .filter-links {
+      display: none;
+    }
+  }
   .nav {
     &-left {
       display: flex;
@@ -301,6 +292,10 @@ div[class^='btn-'],
             color: $main-color;
           }
         }
+      }
+      .back,
+      .filter-links {
+        display: none;
       }
     }
     &-right {

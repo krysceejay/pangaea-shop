@@ -4,7 +4,16 @@ import PropTypes from 'prop-types'
 const Products = () => {
     const cartRef = useRef<HTMLElement>(null)
     const overlayRef = useRef<HTMLDivElement>(null)
+    const menuRef = useRef<HTMLDivElement>(null)
 
+    const showMenu = () => {
+        menuRef.current?.classList.add("show-menu")  
+       //overlayRef.current?.classList.remove("hide")  
+    }
+    const hideMenu = () => {
+        menuRef.current?.classList.remove("show-menu")  
+        //overlayRef.current?.classList.add("hide")
+    }
     const showCart = () => {
        cartRef.current?.classList.add("show-cart")  
        overlayRef.current?.classList.remove("hide")  
@@ -20,7 +29,7 @@ const Products = () => {
                 <section id="slide-cart" ref={cartRef}>
                     <div className="cart-head">
                         <div className="cart-head-top">
-                            <div className="cart-head-top-back" onClick={hideCart}>
+                            <div className="back" onClick={hideCart}>
                                 <i className="fa fa-angle-right" aria-hidden="true"></i>
                             </div>
                             <div className="cart-head-top-title">YOUR CART</div>
@@ -188,29 +197,42 @@ const Products = () => {
                 </section>
             </div>
             
-            <nav id="main-nav">
-                <div className="nav-left">
-                    <a href="/">
-                        <div className="nav-left-logo">
-                            <img src="/image/logo.png" alt="" />
+                
+                <nav id="main-nav">
+                    <div className="nav-left-wrap" ref={menuRef}>
+                        <div className="nav-left">
+                            <a href="/">
+                                <div className="nav-left-logo">
+                                    <img src="/image/logo.png" alt="" />
+                                </div>
+                            </a>
+                            <ul className="nav-left-links">
+                                <li>Shop</li>
+                                <li>Learn</li>
+                            </ul>
+                            <div className="back" onClick={hideMenu}>
+                                <i className="fa fa-angle-left" aria-hidden="true"></i>
+                            </div>
                         </div>
-                    </a>
-                    <ul className="nav-left-links">
-                        <li>Shop</li>
-                        <li>Learn</li>
-                    </ul>
-                </div>
-                <div id="dash-bar" className="menu-icon">
-                    <span></span>
-                </div>
-                <div className="nav-right">
-                    <a href="/" className="nav-right-link">Account</a>
-                    <a href="/" className="nav-right-cart">
-                        <img src="/image/cart.png" alt="" />
-                        <span className="cart-num">2</span>
-                    </a>
-                </div>
-            </nav>
+                        <ul className="filter-links">
+                            <li>Skin</li>
+                            <li>Hair & Body</li>
+                            <li>Sets</li>
+                            <li>Accessories</li>
+                            <li>Shop All</li>
+                        </ul>
+                    </div>
+                    <div id="dash-bar" className="menu-icon" onClick={showMenu}>
+                        <span></span>
+                    </div>
+                    <div className="nav-right">
+                        <a href="/" className="nav-right-link">Account</a>
+                        <a href="/" className="nav-right-cart">
+                            <img src="/image/cart.png" alt="" />
+                            <span className="cart-num">2</span>
+                        </a>
+                    </div>
+                </nav>
             <section className="filter">
                 <div className="head">
                     <h1>All Products</h1>
