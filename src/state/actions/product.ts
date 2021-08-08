@@ -11,7 +11,7 @@ interface ProductOptions {
   options: Options[]
 }
 
-interface ProductType {
+export interface ProductType {
   id: number
   image_url: string
   title: string

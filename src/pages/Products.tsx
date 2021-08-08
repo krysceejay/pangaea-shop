@@ -1,8 +1,10 @@
 import React, {useRef, useEffect} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { productActionCreators, State } from '../state'
-import {IProductState} from '../state/actions/product'
+import { State } from '../state'
+import {getAllProducts} from '../state/action-creators/productActions'
+import {addToCart} from '../state/action-creators/cartActions'
+import {IProductState, ProductType} from '../state/actions/product'
+import {CartState} from '../state/actions/cart'
 
 const Products: React.FC = () => {
     const cartRef = useRef<HTMLElement>(null)
@@ -10,14 +12,15 @@ const Products: React.FC = () => {
     const menuRef = useRef<HTMLDivElement>(null)
 
     const dispach = useDispatch()
-    const {getAllProducts} = bindActionCreators(productActionCreators, dispach)
     const productList: IProductState = useSelector((state: State) => state.products)
+    const cartList: CartState = useSelector((state: State) => state.cart)
     
     const { products } = productList
+    const { cart } = cartList
 
     useEffect(() => {
-        getAllProducts()
-      }, [getAllProducts])
+        dispach(getAllProducts())
+      }, [dispach])
 
     const showMenu = () => {
         menuRef.current?.classList.add("show-menu")  
@@ -27,7 +30,15 @@ const Products: React.FC = () => {
         menuRef.current?.classList.remove("show-menu")  
         //overlayRef.current?.classList.add("hide")
     }
-    const showCart = () => {
+    const showCart = (prod: ProductType) => {
+        dispach(addToCart({
+            id: prod.id,
+            image_url: prod.image_url,
+            title: prod.title,
+            price: prod.price,
+            quantity: 1
+        }))
+
        cartRef.current?.classList.add("show-cart")  
        overlayRef.current?.classList.remove("hide")  
     }
@@ -60,9 +71,10 @@ const Products: React.FC = () => {
                     </div>
                     <div className="cart-body">
                         <div className="cart-body-wrap">
+                        {cart.map(ct => (
                             <div className="cart-body-wrap-item">
                                 <div className="cart-details">
-                                    <h6>Youth Management Set</h6>
+                                    <h6>{ct.title}</h6>
                                     <div className="size">Oily | 25-34</div>
                                     <div className="terms">One time purchase of Two Month supply.</div>
                                     <div className="quantity-price">
@@ -70,134 +82,20 @@ const Products: React.FC = () => {
                                             <button className="minus">
                                                 &#x2212;
                                             </button>
-                                            <span className="counter">5</span>
+                                            <span className="counter">{ct.quantity}</span>
                                             <button className="plus">
                                                 &#x2b;
                                             </button>
                                         </div>
-                                        <div className="price">NOK 1,540.00</div>
+                                        <div className="price">NOK {ct.price}</div>
                                     </div>
                                 </div>
                                 <div className="cart-img">
-                                    <img src="/image/charcoal-cleanser.png" alt="item" />
+                                    <img src={ct.image_url} alt="item" />
                                 </div>
                                 <span className="close-btn">&#x2715;</span>
                             </div>
-                            <div className="cart-body-wrap-item">
-                                <div className="cart-details">
-                                    <h6>Youth Management Set</h6>
-                                    <div className="size">Oily | 25-34</div>
-                                    <div className="terms">One time purchase of Two Month supply.</div>
-                                    <div className="quantity-price">
-                                        <div className="controls">
-                                            <button className="minus">
-                                                &#x2212;
-                                            </button>
-                                            <span className="counter">5</span>
-                                            <button className="plus">
-                                                &#x2b;
-                                            </button>
-                                        </div>
-                                        <div className="price">NOK 1,540.00</div>
-                                    </div>
-                                </div>
-                                <div className="cart-img">
-                                    <img src="/image/charcoal-cleanser.png" alt="item" />
-                                </div>
-                                <span className="close-btn">&#x2715;</span>
-                            </div>
-                            <div className="cart-body-wrap-item">
-                                <div className="cart-details">
-                                    <h6>Youth Management Set</h6>
-                                    <div className="size">Oily | 25-34</div>
-                                    <div className="terms">One time purchase of Two Month supply.</div>
-                                    <div className="quantity-price">
-                                        <div className="controls">
-                                            <button className="minus">
-                                                &#x2212;
-                                            </button>
-                                            <span className="counter">5</span>
-                                            <button className="plus">
-                                                &#x2b;
-                                            </button>
-                                        </div>
-                                        <div className="price">NOK 1,540.00</div>
-                                    </div>
-                                </div>
-                                <div className="cart-img">
-                                    <img src="/image/charcoal-cleanser.png" alt="item" />
-                                </div>
-                                <span className="close-btn">&#x2715;</span>
-                            </div>
-                            <div className="cart-body-wrap-item">
-                                <div className="cart-details">
-                                    <h6>Youth Management Set</h6>
-                                    <div className="size">Oily | 25-34</div>
-                                    <div className="terms">One time purchase of Two Month supply.</div>
-                                    <div className="quantity-price">
-                                        <div className="controls">
-                                            <button className="minus">
-                                                &#x2212;
-                                            </button>
-                                            <span className="counter">5</span>
-                                            <button className="plus">
-                                                &#x2b;
-                                            </button>
-                                        </div>
-                                        <div className="price">NOK 1,540.00</div>
-                                    </div>
-                                </div>
-                                <div className="cart-img">
-                                    <img src="/image/charcoal-cleanser.png" alt="item" />
-                                </div>
-                                <span className="close-btn">&#x2715;</span>
-                            </div>
-                            <div className="cart-body-wrap-item">
-                                <div className="cart-details">
-                                    <h6>Youth Management Set</h6>
-                                    <div className="size">Oily | 25-34</div>
-                                    <div className="terms">One time purchase of Two Month supply.</div>
-                                    <div className="quantity-price">
-                                        <div className="controls">
-                                            <button className="minus">
-                                                &#x2212;
-                                            </button>
-                                            <span className="counter">5</span>
-                                            <button className="plus">
-                                                &#x2b;
-                                            </button>
-                                        </div>
-                                        <div className="price">NOK 1,540.00</div>
-                                    </div>
-                                </div>
-                                <div className="cart-img">
-                                    <img src="/image/charcoal-cleanser.png" alt="item" />
-                                </div>
-                                <span className="close-btn">&#x2715;</span>
-                            </div>
-                            <div className="cart-body-wrap-item">
-                                <div className="cart-details">
-                                    <h6>Youth Management Set</h6>
-                                    <div className="size">Oily | 25-34</div>
-                                    <div className="terms">One time purchase of Two Month supply.</div>
-                                    <div className="quantity-price">
-                                        <div className="controls">
-                                            <button className="minus">
-                                                &#x2212;
-                                            </button>
-                                            <span className="counter">5</span>
-                                            <button className="plus">
-                                                &#x2b;
-                                            </button>
-                                        </div>
-                                        <div className="price">NOK 1,540.00</div>
-                                    </div>
-                                </div>
-                                <div className="cart-img">
-                                    <img src="/image/charcoal-cleanser.png" alt="item" />
-                                </div>
-                                <span className="close-btn">&#x2715;</span>
-                            </div>
+                        ))}
                         </div>
                     </div>
                     <div className="cart-sum">
@@ -271,7 +169,7 @@ const Products: React.FC = () => {
                             </div>
                             <h3 className="item-name">{prod.title}</h3>
                             <p className="item-price">USD {prod.price}</p>
-                            <button className="btn btn-cart" onClick={showCart}>Add to Cart</button>
+                            <button className="btn btn-cart" onClick={() => showCart(prod)}>Add to Cart</button>
                         </div>
                     ))}
                 </div>
