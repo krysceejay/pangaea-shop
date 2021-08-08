@@ -58,8 +58,35 @@
     font-size: 14px;
     line-height: 21px;
     padding: 1rem 0.5rem;
-    width: 55%;
+    width: 100%;
     margin-top: 0.5rem;
+  }
+  &-sub {
+    @extend %btn-shared;
+    display: block;
+    color: #2b2e2b;
+    background-color: #fff;
+    border: 1px solid #2b2e2b;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 20px;
+    padding: 1rem 1.25rem;
+    width: 100%;
+    letter-spacing: 0.96px;
+  }
+  &-checkout {
+    @extend %btn-shared;
+    display: block;
+    color: #fff;
+    background-color: #4b5548;
+    border: none;
+    margin-top: 15px;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 20px;
+    padding: 1rem 1.25rem;
+    width: 100%;
+    letter-spacing: 2px;
   }
 }
 
@@ -76,6 +103,65 @@ a[class^='btn-']:focus,
 input[class^='btn-']:focus {
   box-shadow: none;
   outline: none;
+}
+
+.overlay {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #6e7b70;
+  backdrop-filter: blur(1px);
+  opacity: 0.5;
+  z-index: 20;
+  pointer-events: none;
+  -webkit-transition: all 0.4s ease-in-out;
+  transition: all 0.4s ease-in-out;
+}
+
+.hide {
+  display: none;
+}
+
+#dash-bar {
+  width: 1.6rem;
+  height: 2rem;
+  cursor: pointer;
+  z-index: 1;
+  //background-color: red;
+  position: relative;
+
+  span {
+    display: block;
+    width: 1.6rem;
+    height: 1px;
+    background: #262626;
+    position: absolute;
+    top: 1rem;
+    transition: 0.5s;
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: -7px;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: #262626;
+      transition: 0.5s;
+    }
+    &:after {
+      content: '';
+      position: absolute;
+      top: 7px;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: #262626;
+      transition: 0.5s;
+    }
+  }
 }
 
 // @font-face{font-family:"FF Bau Regular";src:url("/fonts/karla.woff2") format("woff2");}
