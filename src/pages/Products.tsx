@@ -2,12 +2,11 @@ import React, {useRef, useEffect} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import { State } from '../state'
 import {getAllProducts} from '../state/action-creators/productActions'
-import {addToCart, updateCart, updateOnChangeCurrency} from '../state/action-creators/cartActions'
-import {getCurrency} from '../state/action-creators/currencyActions'
+import {addToCart, removeFromCart, updateCart, decrementQty, updateOnChangeCurrency} from '../state/action-creators/cartActions'
+import {getCurrency, selectCurrency} from '../state/action-creators/currencyActions'
 import {IProductState, ProductType} from '../state/actions/product'
 import {CartState} from '../state/actions/cart'
 import {CurrencyState} from '../state/actions/currency'
-import Cart from '../components/Cart'
 
 const Products: React.FC = () => {
     const cartRef = useRef<HTMLElement>(null)
@@ -21,7 +20,7 @@ const Products: React.FC = () => {
     
     const { products } = productList
     const { cart } = cartList
-    const { currency } = currencyList
+    const { currencies, currency } = currencyList
 
     useEffect(() => {
         dispach(getAllProducts(currency))
@@ -59,12 +58,103 @@ const Products: React.FC = () => {
        cartRef.current?.classList.add("show-cart")  
        overlayRef.current?.classList.remove("hide")  
     }
+
+    const delCart = (id: number) => {
+        dispach(removeFromCart(id))
+    }
+
+    const hideCart = () => {
+        cartRef.current?.classList.remove("show-cart")  
+        overlayRef.current?.classList.add("hide")
+     }
+
+    const incrementQty = (id: number) => {
+        dispach(updateCart(id))
+    } 
+    const decrementQuanity = (id: number) => {
+        const cartItem = cart.find(ct => ct.id === id)
+        cartItem?.quantity === 1 ? 
+        dispach(removeFromCart(id)) :
+        dispach(decrementQty(id))
+    } 
+
+    const sumTotal = (): number => {
+        let total = 0
+        cart.forEach(it => {
+            total += it.price
+        })
+        return total
+    }
+
+    const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        dispach(selectCurrency(e.target.value))
+        //console.log(products)
+        
+        //dispach(updateOnChangeCurrency())
+    }
      
     return (
         <>
             <div>
                 <div className="overlay hide" ref={overlayRef}></div>
-                    <Cart ref={cartRef} />
+                <section id="slide-cart" ref={cartRef}>
+                    <div className="cart-head">
+                        <div className="cart-head-top">
+                            <div className="back" onClick={hideCart}>
+                                <i className="fa fa-angle-right" aria-hidden="true"></i>
+                            </div>
+                            <div className="cart-head-top-title">YOUR CART</div>
+                        </div>
+                        <div className="cart-head-currency">
+                            <select value={currency} onChange={handleSelectChange}>
+                                {currencies.map((cur, ind) => (
+                                <option value={cur} key={ind}>{cur}</option>
+                            ))}
+                            </select>
+                        </div>
+                    </div>
+                    {cart.length === 0 ? <p className="empty-cart">There are no items in your cart.</p> :
+                    <>
+                    <div className="cart-body">
+                        <div className="cart-body-wrap">
+                        {cart.map(ct => (
+                            <div className="cart-body-wrap-item" key={ct.id}>
+                                <div className="cart-details">
+                                    <h6>{ct.title}</h6>
+                                    <div className="size">Oily | 25-34</div>
+                                    <div className="terms">One time purchase of Two Month supply.</div>
+                                    <div className="quantity-price">
+                                        <div className="controls">
+                                            <button className="minus" onClick={() => decrementQuanity(ct.id)}>
+                                                &#x2212;
+                                            </button>
+                                            <span className="counter">{ct.quantity}</span>
+                                            <button className="plus" onClick={() => incrementQty(ct.id)}>
+                                                &#x2b;
+                                            </button>
+                                        </div>
+                                        <div className="price">{currency} {ct.price}</div>
+                                    </div>
+                                </div>
+                                <div className="cart-img">
+                                    <img src={ct.image_url} alt="item" />
+                                </div>
+                                <span className="close-btn" onClick={() => delCart(ct.id)}>&#x2715;</span>
+                            </div>
+                        ))}
+                        </div>
+                    </div>
+                    <div className="cart-sum">
+                        <div className="cart-sum-head">
+                            <span className="sum-title">Subtotal</span>
+                            <span className="sum-total">{currency} {sumTotal()}</span>
+                        </div>
+                        <button className="btn btn-sub">MAKE THIS A SUBSCRIPTION (SAVE UP TO 20%)</button>
+                        <button className="btn btn-checkout">PROCEED TO CHECKOUT</button>
+                    </div>
+                    </> 
+                    }
+                </section>
             </div>
 
                 <nav id="main-nav">
@@ -98,7 +188,7 @@ const Products: React.FC = () => {
                         <a href="/" className="nav-right-link">Account</a>
                         <a href="/" className="nav-right-cart">
                             <img src="/image/cart.png" alt="" />
-                            <span className="cart-num">{cart?.length}</span>
+                            <span className="cart-num">{cart.length}</span>
                         </a>
                     </div>
                 </nav>
