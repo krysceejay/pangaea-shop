@@ -135,6 +135,7 @@ div[class^='btn-'],
       padding-top: 10px;
       max-height: 60vh;
       overflow: scroll;
+      //background-color: khaki;
       &-item {
         display: flex;
         flex-wrap: wrap;
@@ -231,6 +232,10 @@ div[class^='btn-'],
     border-top: 1px solid #d0d0d0;
     box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.15);
     z-index: 1;
+    position: inherit;
+    bottom: 2rem;
+    width: 100%;
+    background-color: #f2f2ef;
     &-head {
       display: flex;
       justify-content: space-between;

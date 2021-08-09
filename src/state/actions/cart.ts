@@ -2,8 +2,9 @@
     id: number
     image_url: string
     title: string
+    unitprice: number
+    quantity: number,
     price: number
-    quantity: number
   }
 
   export interface CartState {
@@ -12,12 +13,18 @@
   
   interface CartsAction {
       type: string
-      payload?: CartType[]
+      payload: CartType[]
   }
   
   interface CartAction {
       type: string
-      payload?: CartType
+      payload: CartType
+  }
+
+  interface RemoveCartAction {
+      type: string
+      payload: number
   }
   
-  export type Action = CartsAction | CartAction 
+  
+  export type Action = CartsAction | CartAction | RemoveCartAction

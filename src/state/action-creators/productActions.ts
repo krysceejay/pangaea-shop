@@ -6,14 +6,14 @@ import {
   import {Action} from '../actions/product'
   import api from '../../utils/api'
 
-  export const getAllProducts = () => async (dispatch: Dispatch<Action>) => {
+  export const getAllProducts = (currency: string) => async (dispatch: Dispatch<Action>) => {
     const query = `
         query {
             products {
                 id
                 title
                 image_url
-                price(currency: USD)
+                price(currency: ${currency})
                 product_options {
                   title
                   prefix

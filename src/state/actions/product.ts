@@ -21,7 +21,6 @@ export interface ProductType {
 
 export interface IProductState {
   products: ProductType[]
-  product: ProductType | {}
   error: {
     msg: string, 
     status: number | null

@@ -3,9 +3,9 @@ import {
   } from '../types/productTypes'
   import {Action, IProductState} from '../actions/product'
 
+
   const initialState: IProductState = {
     products: [],
-    product: {},
     error: {
       msg: '',
       status: null
