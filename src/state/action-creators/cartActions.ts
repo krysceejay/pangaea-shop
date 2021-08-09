@@ -16,7 +16,8 @@ import {
         type: ADD_TO_CART,
         payload: prod,
     })
-    localStorage.setItem('cartItems', JSON.stringify(getState().cart))
+    const {cart}: CartState = getState().cart
+    localStorage.setItem('cartItems', JSON.stringify(cart))
   }
 
   export const removeFromCart = (id: number) => async (dispatch: Dispatch<Action>, getState: () => State) => {
@@ -24,7 +25,9 @@ import {
         type: REMOVE_FROM_CART,
         payload: id,
     })
-    localStorage.setItem('cartItems', JSON.stringify(getState().cart))
+
+    const {cart}: CartState = getState().cart
+    localStorage.setItem('cartItems', JSON.stringify(cart))
   }
 
   export const updateCart = (id: number) => async (dispatch: Dispatch<Action>, getState: () => State) => {
@@ -32,7 +35,9 @@ import {
         type: UPDATE_CART,
         payload: id
     })
-    localStorage.setItem('cartItems', JSON.stringify(getState().cart))
+
+    const {cart}: CartState = getState().cart
+    localStorage.setItem('cartItems', JSON.stringify(cart))
   }
 
   export const decrementQty = (id: number) => async (dispatch: Dispatch<Action>, getState: () => State) => {
@@ -40,7 +45,9 @@ import {
         type: DECREMENT_QTY,
         payload: id
     })
-    localStorage.setItem('cartItems', JSON.stringify(getState().cart))
+
+    const {cart}: CartState = getState().cart
+    localStorage.setItem('cartItems', JSON.stringify(cart))
   }
 
   export const updateOnChangeCurrency = () => async (dispatch: Dispatch<Action>, getState: () => State) => {
@@ -55,7 +62,7 @@ import {
        ct.price = ct.unitprice * ct.quantity
        return ct
     })
-    
+
     dispatch({
       type: UPDATE_ON_CHANGE_CURRENCY,
       payload: newCart
