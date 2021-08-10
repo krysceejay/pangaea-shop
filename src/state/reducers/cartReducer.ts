@@ -8,7 +8,7 @@ import {
   import {Action, CartState} from '../actions/cart'
 
   const cartItemsFromStorage: [] = localStorage.getItem('cartItems')
-  ? JSON.parse(localStorage.getItem('cartItems') || '{}').cart
+  ? JSON.parse(localStorage.getItem('cartItems') || '{}')
   : []
 
   const initialState: CartState = {

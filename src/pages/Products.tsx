@@ -36,12 +36,12 @@ const Products: React.FC = () => {
 
     const showMenu = () => {
         menuRef.current?.classList.add("show-menu")  
-       //overlayRef.current?.classList.remove("hide")  
+       overlayRef.current?.classList.remove("hide")  
     }
 
     const hideMenu = () => {
         menuRef.current?.classList.remove("show-menu")  
-        //overlayRef.current?.classList.add("hide")
+        overlayRef.current?.classList.add("hide")
     }
 
     const showCart = (prod: ProductType) => {
@@ -88,9 +88,6 @@ const Products: React.FC = () => {
 
     const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         dispach(selectCurrency(e.target.value))
-        //console.log(products)
-        
-        //dispach(updateOnChangeCurrency())
     }
      
     return (
